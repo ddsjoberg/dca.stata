@@ -1,0 +1,13 @@
+* outline for *.pkg files found here: https://www.stata.com/manuals13/rnet.pdf
+v 1
+
+d Decision Curve Analysis
+
+d Distribution-Date: 20171206
+
+* f identifies the component files
+f dca.ado
+f dca.hlp
+f stdca.ado
+f stdca.hlp
+
