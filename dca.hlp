@@ -1,0 +1,91 @@
+{smcl}
+{* *! version 1.1  22sep2013}{...}
+{viewerdialog twoway "dialog twoway"}{...}
+{vieweralsosee "[G-2] graph twoway line" "mansection G-2 graphtwowayline"}{...}
+{vieweralsosee "" "--"}{...}
+{vieweralsosee "[G-2] graph twoway scatter" "help scatter"}{...}
+{vieweralsosee "" "--"}{...}
+{vieweralsosee "[G-2] graph twoway fpfit" "help twoway_fpfit"}{...}
+{vieweralsosee "[G-2] graph twoway lfit" "help twoway_lfit"}{...}
+{vieweralsosee "[G-2] graph twoway mband" "help twoway_mband"}{...}
+{vieweralsosee "[G-2] graph twoway mspline" "help twoway_mspline"}{...}
+{vieweralsosee "[G-2] graph twoway qfit" "help twoway_qfit"}{...}
+{viewerjumpto "Syntax" "line##syntax"}{...}
+{viewerjumpto "Description" "line##description"}{...}
+{viewerjumpto "Options" "line##options"}{...}
+{viewerjumpto "Remarks" "line##remarks"}{...}
+{title:Title}
+
+{p2colset 5 32 34 2}{...}
+{p2col :Decision Curve Analysis } {p_end}
+{p2colreset}{...}
+
+{marker syntax}{...}
+{title:Syntax}
+
+{p 8 24 2}
+{opt dca} {depvar} {indepvars} {ifin} [{cmd:,} {it:options}]
+
+{marker description}{...}
+{title:Description}
+
+{pstd}
+Diagnostic and prognostic models are typically evaluated with measures of accuracy that do not address clinical consequences. Decision-analytic techniques allow assessment of clinical outcomes but often require collection of additional information and may be cumbersome to apply to models that yield a continuous result. Decision curve analysis is a method for evaluating and comparing prediction models that incorporates clinical consequences, requires only the data set on which the models are tested,and can be applied to models that have either continuous or dichotomous results. The {cmd:dca} function performs decision curve analysis for binary outcomes.
+
+{pstd}
+See {browse "http://www.decisioncurveanalysis.org"} for more information.
+
+{synoptset 22}
+{p2col:{it:options}}Description{p_end}
+{p2line}
+{synopt :{opt prob:ability(yes|no)}}specifies whether or not each of the independent variables are probabilities. The default is yes.{p_end}
+{synopt :{opt harm(numlist)}}specifies the harm(s) associated with the independent variable(s). The default is none.{p_end}
+{synopt :{opt intervention}}plot net reduction in interventions.{p_end}
+{synopt :{opt interventionper(#)}}number of net reduction in interventions per interger. Default is 100.{p_end}
+{synopt :{opt smooth}}smooth net benefit curve.{p_end}
+{synopt :{opt smoother(method)}}smoothing method to apply. Default is 3rssh.{p_end}
+{synopt :{opt nograph}}do not display graph.{p_end}
+{synopt :{opt xstart(#)}}starting value for x-axis (threshold probability) between 0 and 1. default is 0.01.{p_end}
+{synopt :{opt xstop(#)}}stopping value for x-axis (threshold probability) between 0 and 1. default is 0.99.{p_end}
+{synopt :{opt xby(#)}}increment for threshold probability; default is 0.01.{p_end}
+{synopt :{opt ymin(#)}}minimum bound for graph. default is -0.05.{p_end}
+{synopt :{help prefix_saving_option:{bf:{ul:sa}ving(}{it:filename}{bf:, ...)}}}save
+	decision curve analysis results to {it:filename}{p_end}
+INCLUDE help gr_twopt
+INCLUDE help gr_axlnk
+INCLUDE help gr_conopt
+
+{p2line}
+{p 4 6 2}
+{it:connect_options} discusses options for one {it:y} versus one {it:x};
+see {it:{help scatter##connect_options:connect_options}} in 
+{helpb scatter:[G-2] graph twoway scatter} when plotting
+multiple {it:y}s against one {it:x}.
+
+{marker examples}{...}
+{title:Examples}
+
+   {hline}
+{pstd}Setup{p_end}
+{phang2}{cmd:. webuse lbw}{p_end}
+{phang2}{cmd:. logit low age lwt}{p_end}
+{phang2}{cmd:. predict predlow, pr}{p_end}
+
+{pstd}Decision Curve Analysis{p_end}
+{phang2}{cmd:. dca low age lwt, prob(no no)}{p_end}
+{phang2}{cmd:. dca low age, smooth xstop(0.5) prob(no) intervention}{p_end}
+{phang2}{cmd:. dca low predlow, smooth xstop(0.5) lcolor(black gs8 black) lpattern(solid solid dash) title("Decision Curve Analysis Example", size(4) color(red)) scheme(s1mono)}{p_end}
+
+
+    {hline}
+
+{marker saved_results}{...}
+{title:Saved results}
+
+{pstd}
+{cmd:dca} saves the following in {cmd:r()}:
+
+{synoptset 20 tabbed}{...}
+{p2col 5 20 24 2: Macros}{p_end}
+{synopt:{cmd:r(N)}}number of observations{p_end}
+{p2colreset}{...}
