@@ -1,9 +1,9 @@
 * outline for *.pkg files found here: https://www.stata.com/manuals13/rnet.pdf
 v 1
 
-d Decision Curve Analysis
+d Decision Curve Analysis is a method for evaluating and comparing prediction models that incorporates clinical consequences, requires only the data set on which the models are test an be applied to models that have either continuous or dichotomous results.
 
-d Distribution-Date: 20171206
+d Distribution-Date: 2017-12-06
 
 * f identifies the component files
 f dca.ado
