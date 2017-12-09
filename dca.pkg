@@ -4,7 +4,7 @@ v 1
 * first line falls under the TITLE section of "net describe dca".  Subsequent lines are under DESCRIPTION/AUTHOR(S) seciton
 d Decision Curve Analysis is a method for evaluating and comparing prediction models that incorporates clinical consequences.
 d Author: Daniel D. Sjoberg (github.com/ddsjoberg)
-d Distribution-Date: 2017-12-06
+d Distribution Date: 2017-12-06
 d Details on package use and theoretical development of DCA at decisioncurveanalysis.org.
 
 * f identifies the component files
