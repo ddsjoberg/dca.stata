@@ -1,5 +1,5 @@
 v 1.0
 
-d dca: Perform decision curve analysis
+d dca: Perform decision curve analysis. decisioncurveanalysis.org
 
 p dca Decision curve analysis is a method for evaluating and comparing prediction models that incorporates clinical consequences, requires only the data set on which the models are test an be applied to models that have either continuous or dichotomous results.
