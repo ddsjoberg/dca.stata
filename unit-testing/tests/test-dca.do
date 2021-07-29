@@ -4,7 +4,7 @@
 use "example-data\dca.dta", clear
 
 tempfile dca_famhist
-test_command dca cancer famhistory, nograph  xby(0.49) xstop(0.50)saving(`dca_famhist')
+test_command dca cancer famhistory, nograph  xby(0.49) xstop(0.50) saving(`dca_famhist')
 use `dca_famhist', clear
 
 * check NB and interventions avoided are correct
