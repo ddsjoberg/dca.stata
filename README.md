@@ -12,6 +12,6 @@ net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") repl
 
 # Release History
 
-## dca v1.0.0 (2017-12-06)
+## v1.0.0 (2017-12-06)
 
 * Initial release.
