@@ -10,6 +10,12 @@ Use the following command to install the collection of DCA functions in Stata.
 net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") replace
 ```
 
+## Unit Testing
+
+1. Confirm the working directory set in `unit-testing/tests.do` is correct.
+1. Run the file `unit-testing/tests.do`. This will run each of the unit testing files located in the `unit-testing/tests` folder.
+1. Confirm the results in the Stata console window.
+
 ## Release History
 
 #### v1.0.0 (2017-12-06)
