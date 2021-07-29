@@ -10,8 +10,8 @@ Use the following command to install the collection of DCA functions in Stata.
 net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") replace
 ```
 
-# Release History
+## Release History
 
-## v1.0.0 (2017-12-06)
+#### v1.0.0 (2017-12-06)
 
 * Initial release.
