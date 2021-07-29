@@ -109,18 +109,7 @@ program dca, rclass
 		}
 	}
 	
-
-	
-
-	
-	******************************************************************************************************************
-	*** calculate net benefit for each threshold
-	******************************************************************************************************************
-	tempname dcamemhold
-    tempfile dcaresults	
-	postfile `dcamemhold' threshold str100(model) nb using `dcaresults'
-
-	*looping over every threshold probability and calculating NB for all models
+	* if user passed prev, use it; otherwise calculate from data
 	if "`prevalence'" == "" {
 		qui summ `outcome' 
 			local prevalence=`r(mean)'
@@ -132,7 +121,17 @@ program dca, rclass
 			exit 198
 		}
 	}
-	 
+
+
+	
+	******************************************************************************************************************
+	*** calculate net benefit for each threshold
+	******************************************************************************************************************
+	tempname dcamemhold
+    tempfile dcaresults	
+	postfile `dcamemhold' threshold str100(model) nb using `dcaresults'
+
+	*looping over every threshold probability and calculating NB for all models	 
 	local N=_N
 	return local N=_N
 	local tcount=0
@@ -141,8 +140,6 @@ program dca, rclass
 		local threshold=`threshold'+`xby'
 		local ++tcount
 		
-			
-
 		* creating var to indicate if observation is at risk
 		qui foreach model in all none `varlist' {
 		
