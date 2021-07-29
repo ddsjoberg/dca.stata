@@ -1,6 +1,6 @@
 /*
 PROGRAM: stdca.ado
-PROGRAMMER: Daniel
+PROGRAMMER: Daniel Sjoberg
 DATE: 9/16/2014
 DSECRIPTION:
 stdca is an extension to dca for a survival-time endpoint. 

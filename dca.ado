@@ -1,6 +1,6 @@
 /*
 PROGRAM: dca.ado
-PROGRAMMER: Daniel
+PROGRAMMER: Daniel Sjoberg
 DATE: 9/16/2014
 DESCRIPTION:
 dca calculates the points on a decision curve and optionally
@@ -125,9 +125,9 @@ program dca, rclass
 		qui summ `outcome' 
 			local prevalence=`r(mean)'
 	}
-	else  {
+	else {
 	    capture assert inrange(`prevalence',0,1)
-		if "`prob`i''"=="YES" & _rc>0 {
+		if _rc>0 {
 			noi disp as error "prevalence argument must be between 0 and 1."
 			exit 198
 		}
