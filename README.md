@@ -13,6 +13,7 @@ net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") repl
 ## Unit Testing
 
 1. Confirm the working directory set in `unit-testing/tests.do` is correct.
+1. Ensure you have the correct version of the dca package installed.
 1. Run the file `unit-testing/tests.do`. This will run each of the unit testing files located in the `unit-testing/tests` folder.
 1. Confirm the results in the Stata console window.
 
