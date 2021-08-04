@@ -33,8 +33,8 @@ roctab cancer pred2, detail
 *nb = (.39047619*.14) - ((1-.88062016)*(.86)*(.2/.8)) = .029
 
 tempfile dca_famhist2
-test_command dca cancer pred1, prob( no) nograph prev(.14) xby(0.01) xstop(0.2) saving(`dca_famhist2')
+test_command dca cancer pred1 pred2, nograph prev(.14) xby(0.01) xstop(0.2) saving(`dca_famhist2')
 use `dca_famhist2', clear
 
-test_assert "NB is correct: marker[1]" abs(pred1[10]-((.74285714*.14) - ((1-.56434109)*(.86)*(.1/.9))) < 0.001
-test_assert "NB is correct: marker[2]" abs(pred1[20]-((.39047619*.14) - ((1-.88062016)*(.86)*(.2/.8)))) < 0.001
+test_assert "NB is correct: marker[1]" abs(pred1[10]-((.74285714*.14) - ((1-.56434109)*(.86)*(.1/.9)))) < 0.0001
+test_assert "NB is correct: marker[2]" abs(pred2[20]-((.39047619*.14) - ((1-.88062016)*(.86)*(.2/.8)))) < 0.0001
