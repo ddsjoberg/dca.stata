@@ -1,5 +1,5 @@
 * outline for *.pkg files found here: https://www.stata.com/manuals13/rnet.pdf
-v 1
+v 1.1.0
 
 * first line falls under the TITLE section of "net describe dca".  Subsequent lines are under DESCRIPTION/AUTHOR(S) seciton
 d Decision Curve Analysis is a method for evaluating and comparing prediction models that incorporates clinical consequences.

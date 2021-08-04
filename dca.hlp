@@ -40,6 +40,7 @@ See {browse "http://www.decisioncurveanalysis.org"} for more information.
 {p2line}
 {synopt :{opt prob:ability(yes|no)}}specifies whether or not each of the independent variables are probabilities. The default is yes.{p_end}
 {synopt :{opt harm(numlist)}}specifies the harm(s) associated with the independent variable(s). The default is none.{p_end}
+{synopt :{opt prevalence(real)}}specify the prevalence of the outcome when working with case-control data.{p_end}
 {synopt :{opt intervention}}plot net reduction in interventions.{p_end}
 {synopt :{opt interventionper(#)}}number of net reduction in interventions per interger. Default is 100.{p_end}
 {synopt :{opt smooth}}smooth net benefit curve.{p_end}

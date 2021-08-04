@@ -10,7 +10,21 @@ Use the following command to install the collection of DCA functions in Stata.
 net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") replace
 ```
 
+## Unit Testing
+
+1. Confirm the working directory set in `unit-testing/tests.do` is correct.
+1. Run the file `unit-testing/tests.do`. This will...
+    - Source the current versions of `dca.do` and `stdca.do`.
+    - Run each of the unit testing files located in the `unit-testing/tests` folder.
+1. Confirm the results in the Stata console window.
+
 ## Release History
+
+#### v1.1.0
+
+* Added prevalence()` option to the `dca` function. Users working with case-control data can now specify the population prevalence.
+
+* Addded a unit testing infrastructure for the package.
 
 #### v1.0.0 (2017-12-06)
 

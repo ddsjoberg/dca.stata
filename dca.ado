@@ -1,6 +1,6 @@
 /*
 PROGRAM: dca.ado
-PROGRAMMER: Daniel
+PROGRAMMER: Daniel Sjoberg
 DATE: 9/16/2014
 DESCRIPTION:
 dca calculates the points on a decision curve and optionally
@@ -16,7 +16,8 @@ program dca, rclass
 	version 12.0
 
 	syntax varlist(min=2 numeric) [if] [in], [xstart(numlist >0 <1 max=1 missingokay) xstop(numlist >0 <1 max=1 missingokay) ///
-				xby(numlist >0 <1 max=1 missingokay) saving(string asis) smooth smoother(string) noGRAPH harm(string) INTERvention ///
+				xby(numlist >0 <1 max=1 missingokay) saving(string asis) smooth smoother(string) noGRAPH harm(string) ///
+				PREValence(numlist max=1) INTERvention ///
 				interventionper(real 100) interventionmin(real 0) ymin(real -0.05) ymax(real 1.0) PROBability(string) *]
 	preserve
 	
@@ -108,8 +109,19 @@ program dca, rclass
 		}
 	}
 	
+	* if user passed prev, use it; otherwise calculate from data
+	if "`prevalence'" == "" {
+		qui summ `outcome' 
+			local prevalence=`r(mean)'
+	}
+	else {
+	    capture assert inrange(`prevalence',0,1)
+		if _rc>0 {
+			noi disp as error "prevalence argument must be between 0 and 1."
+			exit 198
+		}
+	}
 
-	
 
 	
 	******************************************************************************************************************
@@ -119,9 +131,7 @@ program dca, rclass
     tempfile dcaresults	
 	postfile `dcamemhold' threshold str100(model) nb using `dcaresults'
 
-	*looping over every threshold probability and calculating NB for all models
-	qui summ `outcome' 
-		local eventrate=`r(mean)'
+	*looping over every threshold probability and calculating NB for all models	 
 	local N=_N
 	return local N=_N
 	local tcount=0
@@ -130,32 +140,40 @@ program dca, rclass
 		local threshold=`threshold'+`xby'
 		local ++tcount
 		
-			
-
 		* creating var to indicate if observation is at risk
 		qui foreach model in all none `varlist' {
 		
-			if "`model'"=="all" post `dcamemhold' (`threshold') ("`model'") (`eventrate'-(1-`eventrate')*`threshold'/(1-`threshold'))
+			if "`model'"=="all" post `dcamemhold' (`threshold') ("`model'") (`prevalence'-(1-`prevalence')*`threshold'/(1-`threshold'))
 			else if "`model'"=="none" post `dcamemhold' (`threshold') ("`model'") (0)
 			else {
 					
-				*calculating TP and FP. TP=proportion of patients with disease given they are above the threshold multiplied by number of men above threshold
-				sum `outcome' if `model'>=`threshold' & !mi(`model')
-					*if no patients above threshold then net benefit is 0
+				*calculating TP and FP. 
+				*TP=proportion of patients with disease given they are above the 
+				*   threshold multiplied by number of men above threshold
+				tempvar _testpos_
+				gen `_testpos_' = `model'>=`threshold'
+				sum `_testpos_' if `outcome'
+				*if no patients above threshold then tp is 0
 					if `r(N)'==0 {
-						local tp=0
-						local fp=0
+						local tp_rate=0
 					}
 					else {
 					*counting true positives
-						local tp=`r(mean)'*`r(N)'
-						*counting false positive
-						local fp=(1-`r(mean)')*`r(N)'
+						local tp_rate=`r(mean)' * `prevalence'
+					}	
+				sum `_testpos_' if !`outcome'
+					*if no patients above threshold then fp is 0
+					if `r(N)'==0 {
+						local fp_rate=0
 					}
-				
+					else {
+					*counting falseS positives
+						local fp_rate=`r(mean)' * (1 - `prevalence')
+					}		
+			    drop `_testpos_'
 				
 				*posting the net benefit to results table
-				post `dcamemhold' (`threshold') ("`model'") (`tp'/`N' - (`fp'/`N')*(`threshold'/(1-`threshold')))
+				post `dcamemhold' (`threshold') ("`model'") (`tp_rate' - (`fp_rate')*(`threshold'/(1-`threshold')))
 				
 				*grabbing variable label for otuput dataset
 				local `model'label: variable label `model'
@@ -180,7 +198,6 @@ program dca, rclass
 	* making dataset oneline per threshold value
 	qui reshape wide nb, i(threshold) j(model) string
 
-	
 	
 	* applying variable lables, and creating intervention vars if requested.
 	sort threshold 
