@@ -20,7 +20,7 @@ net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") repl
 
 ## Release History
 
-#### v1.1.0 (2017-08-04)
+#### v1.1.0 (2021-08-04)
 
 * Added `prevalence()` option to the `dca` function. Users working with case-control data can now specify the population prevalence.
 
