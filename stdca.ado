@@ -16,7 +16,7 @@ program stdca
 
 	syntax varlist(min=1 numeric) [if] [in], Timepoint(real) [xstart(numlist >0 <1 max=1 missingokay) xstop(numlist >0 <1 max=1 missingokay) ///
 				xby(numlist >0 <1 max=1 missingokay) saving(string asis) smooth smoother(string) noGRAPH harm(string) INTERvention ///
-				interventionper(real 100) interventionmin(real 0) ymin(real -0.05) ymax(real 1.0) PROBability(string) ///
+				interventionper(real 1) interventionmin(real 0) ymin(real -0.05) ymax(real 1.0) PROBability(string) ///
 				compet1(numlist missingokay) compet2(numlist missingokay) compet3(numlist missingokay) ///
 				compet4(numlist missingokay) compet5(numlist missingokay) compet6(numlist missingokay) *]
 	preserve
@@ -212,7 +212,7 @@ program stdca
 	qui reshape wide nb, i(threshold) j(model) string
 	
 	
-	* applying variable lables, and creating intervention vars if requested.
+	* applying variable labels, and creating intervention vars if requested.
 	sort threshold 
 	foreach v in all none `varlist' {
 		rename nb`v' `v'
@@ -225,8 +225,10 @@ program stdca
 		
 		*if intervention requested, then transforming variables to interventions avoided
 		qui g `v'_i= (`v' - all)*`interventionper'/(threshold/(1-threshold))
-		if trim("`harm'")=="" label variable `v'_i "Intervention: ``v'label'"
-		else if trim("`harm'")!="" label variable `v'_i "Intervention: ``v'label' (``v'harm' harm applied)"
+			if "`v'"=="all" label variable `v'_i "Intervention: Treat All"
+			else if "`v'"=="none" label variable `v'_i "Intervention: Treat None"
+			else if trim("`harm'")=="" label variable `v'_i "Intervention: ``v'label'"
+			else if trim("`harm'")!="" label variable `v'_i "Intervention: ``v'label' (``v'harm' harm applied)"
 	}
 	label variable threshold "Threshold Probability"
 	
@@ -265,6 +267,7 @@ program stdca
 		if trim("`intervention'")=="" local plotvarlist="all none `plotvarlist'"
 		*otherwise add *_i suffix to varlist
 		else {
+			local plotvarlist2="all_i none_i"
 			foreach v of varlist `plotvarlist' {
 				local plotvarlist2="`plotvarlist2' `v'_i"
 			}
@@ -281,6 +284,7 @@ program stdca
 	
 	* creating title for NB or net beneift for figure
 	if trim("`intervention'")=="" local plottitle=`""Net Benefit""'
+	else if "`interventionper'"=="1" local plottitle=`""Net reduction in interventions""'
 	else local plottitle=`""Net reduction in interventions" "per `interventionper' patients""'
 	
 	***********************************************

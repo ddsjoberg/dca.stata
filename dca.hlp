@@ -42,7 +42,7 @@ See {browse "http://www.decisioncurveanalysis.org"} for more information.
 {synopt :{opt harm(numlist)}}specifies the harm(s) associated with the independent variable(s). The default is none.{p_end}
 {synopt :{opt prevalence(real)}}specify the prevalence of the outcome when working with case-control data.{p_end}
 {synopt :{opt intervention}}plot net reduction in interventions.{p_end}
-{synopt :{opt interventionper(#)}}number of net reduction in interventions per interger. Default is 100.{p_end}
+{synopt :{opt interventionper(#)}}number of net reduction in interventions per interger. Default is 1.{p_end}
 {synopt :{opt smooth}}smooth net benefit curve.{p_end}
 {synopt :{opt smoother(method)}}smoothing method to apply. Default is 3rssh.{p_end}
 {synopt :{opt nograph}}do not display graph.{p_end}

@@ -15,5 +15,5 @@ test_assert "NB is correct: none[1]"  abs(none[1] -  0) < 0.0001
 test_assert "NB is correct: none[2]"  abs(none[2] -  0) < 0.0001
 test_assert "NB is correct: cancerpredmarker[1]"  abs(cancerpredmarker[1] -  .21282192) < 0.0001
 test_assert "NB is correct: cancerpredmarker[2]"  abs(cancerpredmarker[2] -  .05783202) < 0.0001
-test_assert "NB is correct: cancerpredmarker_i[1]"  abs(cancerpredmarker_i[1] -  5.8093967) < 0.0001
-test_assert "NB is correct: cancerpredmarker_i[2]"  abs(cancerpredmarker_i[2] -  61.760654) < 0.0001
+test_assert "NB is correct: cancerpredmarker_i[1]"  abs(cancerpredmarker_i[1] -  0.058093967) < 0.0001
+test_assert "NB is correct: cancerpredmarker_i[2]"  abs(cancerpredmarker_i[2] -  0.61760654) < 0.0001
