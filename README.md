@@ -20,6 +20,12 @@ net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") repl
 
 ## Release History
 
+#### v1.2.0 (2022-12-28)
+
+* The net interventions avoided figures have new defaults (breaking change):
+  * The figure will now include the treat all and treat none reference lines.
+  * The nper now defaults to one
+
 #### v1.1.0 (2021-08-04)
 
 * Added `prevalence()` option to the `dca` function. Users working with case-control data can now specify the population prevalence.

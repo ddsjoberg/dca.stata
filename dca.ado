@@ -18,9 +18,8 @@ program dca, rclass
 	syntax varlist(min=2 numeric) [if] [in], [xstart(numlist >0 <1 max=1 missingokay) xstop(numlist >0 <1 max=1 missingokay) ///
 				xby(numlist >0 <1 max=1 missingokay) saving(string asis) smooth smoother(string) noGRAPH harm(string) ///
 				PREValence(numlist max=1) INTERvention ///
-				interventionper(real 100) interventionmin(real 0) ymin(real -0.05) ymax(real 1.0) PROBability(string) *]
+				interventionper(real 1) interventionmin(real 0) ymin(real -0.05) ymax(real 1.0) PROBability(string) *]
 	preserve
-	
 	*keeping observation in if/in
 	capture keep `if' `in'
 	
@@ -216,9 +215,15 @@ program dca, rclass
 		if trim("`harm`i''")=="0" label variable `var`i''_i "Intervention: ``var`i''label'"
 		else label variable `var`i''_i "Intervention: ``var`i''label' (`harm`i'' harm applied)"
 	}
+
+	qui g all_i=(all - all)*`interventionper'/(threshold/(1-threshold))
+	qui g none_i=(none - all)*`interventionper'/(threshold/(1-threshold))
+	
 	label variable threshold "Threshold Probability"
 	label variable all "Net Benefit: Treat All"
 	label variable none "Net Benefit: Treat None"
+	label variable all_i "Intervention: Treat All"
+	label variable none_i "Intervention: Treat None"
 		
 	*smoothing data if requested, and labelling new variables
 	else if trim("`smooth'")=="smooth" {
@@ -241,7 +246,7 @@ program dca, rclass
 		
 	*if graph suppression option requested, then skipping the rest of the program
 	if trim("`graph'")!="" exit
-		
+
 	**  creating variable list for plotting.  command will look like:   line `plotvarlist' threshold
 		*if no smoothing plotting varlist is just the varlist
 		if trim("`smooth'")=="" local plotvarlist="`varlist'"
@@ -253,9 +258,9 @@ program dca, rclass
 		}
 		
 		*if plotting NB rather than  interventions, add all none to plot
-		if trim("`intervention'")=="" local plotvarlist="all none `plotvarlist'"
-		*otherwise add *_i suffix to varlist
-		else {
+		local plotvarlist="all none `plotvarlist'"
+		* add *_i suffix to varlist
+		if trim("`intervention'")!="" {
 			foreach v of varlist `plotvarlist' {
 				local plotvarlist2="`plotvarlist2' `v'_i"
 			}
@@ -271,8 +276,9 @@ program dca, rclass
 		
 	* creating title for NB or net benefit for figure
 	if trim("`intervention'")=="" local plottitle=`""Net Benefit""'
+	else if "`interventionper'"=="1" local plottitle=`""Net reduction in interventions""'
 	else local plottitle=`""Net reduction in interventions" "per `interventionper' patients""'
-		
+	
 		
 	***********************************************
 	***********  PLOTTING FIGURE  *****************
@@ -280,17 +286,3 @@ program dca, rclass
 	line `plotvarlist' threshold, cmissing(n) ytitle(`plottitle', margin(medium)) xtitle(, margin(medium)) `options'
 	
 end       
-		
-		
-		
-		
-		
-		
-	
-	
-
-
-	
-		
-	
-
