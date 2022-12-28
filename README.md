@@ -20,7 +20,7 @@ net install dca, from("https://raw.github.com/ddsjoberg/dca.stata/master/") repl
 
 ## Release History
 
-#### v1.2.0 (20XX-XX-XX)
+#### v1.2.0 (2022-12-28)
 
 * The net interventions avoided figures have new defaults (breaking change):
   * The figure will now include the treat all and treat none reference lines.

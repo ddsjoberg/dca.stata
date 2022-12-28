@@ -1,4 +1,4 @@
-v 1.0
+v 1.2.0
 
 d dca: Perform decision curve analysis. decisioncurveanalysis.org
 
